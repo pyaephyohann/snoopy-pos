@@ -15,7 +15,7 @@ const Register = () => {
     console.log(resposneJson);
   };
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", mt: 5 }}>
+    <Box sx={{ display: "flex", flexDirection: "column" }}>
       <TextField
         label="Name"
         variant="outlined"
@@ -24,7 +24,7 @@ const Register = () => {
       <TextField
         label="Email"
         variant="outlined"
-        sx={{ my: 2 }}
+        sx={{ my: 4 }}
         onChange={(event) => setUser({ ...user, email: event.target.value })}
       />
       <TextField
@@ -33,7 +33,15 @@ const Register = () => {
         type="password"
         onChange={(event) => setUser({ ...user, password: event.target.value })}
       />
-      <Button variant="contained" onClick={register} sx={{ my: 2 }}>
+      <Button
+        variant="contained"
+        onClick={register}
+        sx={{
+          mt: 4,
+          backgroundColor: "#C9A7EB",
+          ":hover": { backgroundColor: "#F7D060" },
+        }}
+      >
         Register
       </Button>
     </Box>
