@@ -1,12 +1,16 @@
+import { Box, Typography } from "@mui/material";
 import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
-import Register from "./components/Register/Register";
 
 function App() {
   return (
     <div className="App">
       <NavBar />
-      <div
+      <Box sx={{ mt: 5 }}>
+        <Typography variant="h3">Welcome from snoopy pos</Typography>
+      </Box>
+
+      {/* <div
         style={{
           width: "20rem",
           margin: "0 auto",
@@ -16,7 +20,7 @@ function App() {
         }}
       >
         <Register />
-      </div>
+      </div> */}
     </div>
   );
 }
