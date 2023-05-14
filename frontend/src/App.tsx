@@ -1,22 +1,12 @@
+import { Typography } from "@mui/material";
 import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
-import Register from "./components/Register/Register";
 
 function App() {
   return (
     <div className="App">
       <NavBar />
-      <div
-        style={{
-          width: "20rem",
-          margin: "0 auto",
-          padding: "3rem",
-          border: "3px solid #C9A7EB",
-          marginTop: "3rem",
-        }}
-      >
-        <Register />
-      </div>
+      <Typography variant="h2">Welcome from Snoopy POS</Typography>
     </div>
   );
 }
