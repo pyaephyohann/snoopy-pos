@@ -25,6 +25,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -73,23 +74,35 @@ const NavBar = () => {
     >
       <List>
         {sidebarMenuItems.slice(0, 6).map((menuItem) => (
-          <ListItem key={menuItem.id} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{menuItem.icon}</ListItemIcon>
-              <ListItemText primary={menuItem.label} />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            style={{ textDecoration: "none", color: "black" }}
+            to={menuItem.route}
+            key={menuItem.id}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                <ListItemText primary={menuItem.label} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
       <Divider />
       <List>
         {sidebarMenuItems.slice(-1).map((menuItem) => (
-          <ListItem key={menuItem.id} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>{menuItem.icon}</ListItemIcon>
-              <ListItemText primary={menuItem.label} />
-            </ListItemButton>
-          </ListItem>
+          <Link
+            style={{ textDecoration: "none", color: "black" }}
+            key={menuItem.id}
+            to={menuItem.route}
+          >
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>{menuItem.icon}</ListItemIcon>
+                <ListItemText primary={menuItem.label} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
     </Box>
