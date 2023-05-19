@@ -6,18 +6,23 @@ import { db } from "./src/db/db";
 import bcrypt from "bcrypt";
 import { config } from "./src/config/config";
 import jwt from "jsonwebtoken";
+import { checkAuth } from "./src/auth";
 
 const app = express();
-
-console.log(config.jwtSrcret);
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/menus", async (req: Request, res: Response) => {
+app.get("/menus", checkAuth, async (req: Request, res: Response) => {
   const menusResult = await db.query("select * from menus");
   const menus = menusResult.rows;
   res.send({ menus });
+});
+
+app.get("/menu-categories", async (req: Request, res: Response) => {
+  const menuCategoriesResult = await db.query("select * from menu_categories");
+  const menuCategories = menuCategoriesResult.rows;
+  res.send({ menuCategories });
 });
 
 app.post("/auth/register", async (req: Request, res: Response) => {

@@ -4,12 +4,17 @@ import { useEffect } from "react";
 import Layout from "./components/Layout/Layout";
 
 function App() {
+  const accessToken = localStorage.getItem("accessToken");
   useEffect(() => {
     fetchMenus();
   }, []);
 
   const fetchMenus = async () => {
-    const response = await fetch("http://localhost:5000/menus");
+    const response = await fetch("http://localhost:5000/menus", {
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+    });
     console.log(await response.json());
   };
 
