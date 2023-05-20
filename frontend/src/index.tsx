@@ -15,15 +15,15 @@ import Settings from "./components/Settings/Settings";
 const routes = createBrowserRouter([
   {
     path: "/",
-    element: <Register />,
+    element: <App />,
   },
   {
     path: "/login",
     element: <Login />,
   },
   {
-    path: "/home",
-    element: <App />,
+    path: "/register",
+    element: <Register />,
   },
   {
     path: "/orders",
