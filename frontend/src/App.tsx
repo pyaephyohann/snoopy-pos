@@ -2,6 +2,7 @@ import { Typography } from "@mui/material";
 import "./App.css";
 import { useEffect } from "react";
 import Layout from "./components/Layout/Layout";
+import { Navigate } from "react-router-dom";
 
 function App() {
   const accessToken = localStorage.getItem("accessToken");
@@ -17,6 +18,8 @@ function App() {
     });
     console.log(await response.json());
   };
+
+  if (!accessToken) return <Navigate to={`/login`} />;
 
   return (
     <Layout>

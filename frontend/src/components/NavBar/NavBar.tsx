@@ -5,9 +5,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
 import { useState } from "react";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import LocalDiningIcon from "@mui/icons-material/LocalDining";
@@ -25,20 +22,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
-  const [auth, setAuth] = useState(true);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const navigate = useNavigate();
+  const accessToken = localStorage.getItem("accessToken");
 
   const sidebarMenuItems = [
     { id: 1, label: "Orders", icon: <LocalMallIcon />, route: "/orders" },
@@ -110,8 +99,16 @@ const NavBar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#C9A7EB" }}>
-        <Toolbar>
+      <AppBar
+        position="static"
+        sx={{ backgroundColor: "#C9A7EB", padding: "0 1rem" }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+          }}
+        >
           <IconButton
             size="large"
             edge="start"
@@ -122,40 +119,32 @@ const NavBar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography variant="h6" component="div">
             Snoopy POS
           </Typography>
-          {auth && (
-            <div>
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-              </Menu>
-            </div>
+          {accessToken ? (
+            <Typography
+              sx={{ cursor: "pointer", userSelect: "none" }}
+              variant="h6"
+              component="div"
+              onClick={() => {
+                localStorage.removeItem("accessToken");
+                navigate("/logout");
+              }}
+            >
+              Log out
+            </Typography>
+          ) : (
+            <Typography
+              sx={{ cursor: "pointer", userSelect: "none" }}
+              variant="h6"
+              component="div"
+              onClick={() => {
+                navigate("/login");
+              }}
+            >
+              {window.location.pathname === "/login" ? "" : "Login"}
+            </Typography>
           )}
         </Toolbar>
       </AppBar>

@@ -1,10 +1,11 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 
 const Register = () => {
   const [user, setUser] = useState({ name: "", email: "", password: "" });
+  const navigate = useNavigate();
   const register = async () => {
     const response = await fetch("http://localhost:5000/auth/register", {
       method: "POST",
@@ -15,6 +16,9 @@ const Register = () => {
     });
     const resposneJson = await response.json();
     console.log(resposneJson);
+    if (response.ok) {
+      navigate("/");
+    }
   };
   return (
     <Layout>
@@ -66,10 +70,10 @@ const Register = () => {
               textDecoration: "none",
               color: "black",
               textAlign: "center",
-              marginTop: "1rem",
+              marginTop: "1.5rem",
             }}
           >
-            Login
+            Already Registered? Login here
           </Link>
         </Box>
       </div>

@@ -11,6 +11,7 @@ import Addons from "./components/Addons/Addons";
 import AddonCategories from "./components/AddonCategories/AddonCategories";
 import Locations from "./components/Locations/Locations";
 import Settings from "./components/Settings/Settings";
+import Logout from "./components/Logout/Logout";
 
 const routes = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const routes = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/logout",
+    element: <Logout />,
   },
   {
     path: "/register",

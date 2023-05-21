@@ -1,6 +1,6 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 
 const Login = () => {
@@ -18,7 +18,7 @@ const Login = () => {
       const responseData = await response.json();
       const accessToken = responseData.accessToken;
       localStorage.setItem("accessToken", accessToken);
-      navigate("/home");
+      navigate("/");
     }
   };
 
@@ -59,6 +59,17 @@ const Login = () => {
         >
           Login
         </Button>
+        <Link
+          style={{
+            textAlign: "center",
+            marginTop: "1.5rem",
+            textDecoration: "none",
+          }}
+          to={`/register`}
+        >
+          {" "}
+          <Typography>New User? Register here</Typography>
+        </Link>
       </Box>
     </Layout>
   );
