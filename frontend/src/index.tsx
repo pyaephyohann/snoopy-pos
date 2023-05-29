@@ -12,6 +12,7 @@ import AddonCategories from "./components/AddonCategories/AddonCategories";
 import Locations from "./components/Locations/Locations";
 import Settings from "./components/Settings/Settings";
 import Logout from "./components/Logout/Logout";
+import AppProvider from "./contexts/AppContext";
 
 const routes = createBrowserRouter([
   {
@@ -63,4 +64,8 @@ const routes = createBrowserRouter([
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
-root.render(<RouterProvider router={routes} />);
+root.render(
+  <AppProvider>
+    <RouterProvider router={routes} />
+  </AppProvider>
+);

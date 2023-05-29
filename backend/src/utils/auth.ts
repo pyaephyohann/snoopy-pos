@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { config } from "./config/config";
+import { config } from "../config/config";
 
 export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   const headers = req.headers;
@@ -8,7 +8,9 @@ export const checkAuth = (req: Request, res: Response, next: NextFunction) => {
   if (!authorization) return res.sendStatus(401);
   try {
     const token = authorization.split(" ")[1];
-    jwt.verify(token, config.jwtSrcret);
+    const user = jwt.verify(token, config.jwtSrcret);
+    //@ts-ignore
+    req["email"] = user.email;
     next();
   } catch (error) {
     res.sendStatus(401);

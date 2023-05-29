@@ -6,58 +6,21 @@ import { db } from "./src/db/db";
 import bcrypt from "bcrypt";
 import { config } from "./src/config/config";
 import jwt from "jsonwebtoken";
-import { checkAuth } from "./src/auth";
+import { checkAuth } from "./src/utils/auth";
+import authRouter from "./src/routers/authRouter";
+import { menuCategoriesRouter } from "./src/routers/menuCategoriesRouter";
+import menusRouter from "./src/routers/menusRouter";
+import appRouter from "./src/routers/appRouter";
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.get("/menus", checkAuth, async (req: Request, res: Response) => {
-  const menusResult = await db.query("select * from menus");
-  const menus = menusResult.rows;
-  res.send({ menus });
-});
-
-app.get("/menu-categories", async (req: Request, res: Response) => {
-  const menuCategoriesResult = await db.query("select * from menu_categories");
-  const menuCategories = menuCategoriesResult.rows;
-  res.send({ menuCategories });
-});
-
-app.post("/auth/register", async (req: Request, res: Response) => {
-  const { name, email, password } = req.body;
-  if (!name || !email || !password) return res.sendStatus(400);
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const text =
-    "INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING *";
-  const values = [name, email, hashedPassword];
-  try {
-    const userResult = await db.query(text, values);
-    const user = userResult.rows[0];
-    delete user.password;
-    res.send(user);
-  } catch (error) {
-    res.sendStatus(500);
-  }
-});
-
-app.post("/auth/login", async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  if (!email || !password) return res.sendStatus(400);
-  const userResult = await db.query("select * from users where email = $1", [
-    email,
-  ]);
-  const user = userResult.rows[0];
-  const hashedPassword = user.password;
-  delete user.password;
-  const isCorrectPassword = await bcrypt.compare(password, hashedPassword);
-  if (isCorrectPassword) {
-    const accessToken = jwt.sign(user, config.jwtSrcret);
-    return res.send({ accessToken });
-  }
-  return res.sendStatus(401);
-});
+app.use("/", appRouter);
+app.use("/menus", menusRouter);
+app.use("/menu-categories", menuCategoriesRouter);
+app.use("/auth", authRouter);
 
 app.listen(5000, () => {
   console.log("express is listening on port 5000");
