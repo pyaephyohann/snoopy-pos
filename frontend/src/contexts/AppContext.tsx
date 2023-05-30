@@ -8,6 +8,7 @@ import {
   Menus,
   User,
 } from "../typings/types";
+import { config } from "../config/config";
 
 interface DefaultContextType {
   user: User | null;
@@ -47,7 +48,7 @@ const AppProvider = ({ children }: any) => {
   }, [accessToken]);
 
   const fetchData = async () => {
-    const response = await fetch("http://localhost:5000", {
+    const response = await fetch(config.apiBaseUrl, {
       headers: {
         authorization: `Bearer ${accessToken}`,
       },
@@ -72,7 +73,6 @@ const AppProvider = ({ children }: any) => {
       addonCategories,
       addons,
     });
-    console.log(data);
   };
 
   return (
