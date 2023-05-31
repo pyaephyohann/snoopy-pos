@@ -11,6 +11,7 @@ import authRouter from "./src/routers/authRouter";
 import { menuCategoriesRouter } from "./src/routers/menuCategoriesRouter";
 import menusRouter from "./src/routers/menusRouter";
 import appRouter from "./src/routers/appRouter";
+import locationsRouter from "./src/routers/locationsRouter";
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 
 app.use("/", appRouter);
 app.use("/menus", menusRouter);
+app.use("/locations", locationsRouter);
 app.use("/menu-categories", menuCategoriesRouter);
 app.use("/auth", authRouter);
 

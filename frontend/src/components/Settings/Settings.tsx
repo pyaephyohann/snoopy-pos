@@ -1,5 +1,12 @@
+import { Typography } from "@mui/material";
+import Layout from "../Layout/Layout";
+
 const Settings = () => {
-  return <h1>Settings</h1>;
+  return (
+    <Layout title="Settings">
+      <Typography variant="h3">Settings</Typography>
+    </Layout>
+  );
 };
 
 export default Settings;

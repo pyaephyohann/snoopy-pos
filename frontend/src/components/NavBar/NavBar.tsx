@@ -24,13 +24,19 @@ import {
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 
-const NavBar = () => {
+interface Props {
+  title?: string;
+}
+
+const NavBar = ({ title }: Props) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("accessToken");
 
+  const navBarTitle = title ? `Snoopy POS - ${title}` : `Snoopy POS`;
+
   const sidebarMenuItems = [
-    { id: 1, label: "Orders", icon: <LocalMallIcon />, route: "/orders" },
+    { id: 1, label: "Orders", icon: <LocalMallIcon />, route: "/" },
     { id: 2, label: "Menus", icon: <LocalDiningIcon />, route: "/menus" },
     {
       id: 3,
@@ -120,7 +126,7 @@ const NavBar = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div">
-            Snoopy POS
+            {navBarTitle}
           </Typography>
           {accessToken ? (
             <Typography
