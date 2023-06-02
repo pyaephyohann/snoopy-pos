@@ -1,11 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import Layout from "../Layout/Layout";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { config } from "../../config/config";
 
 const Locations = () => {
-  const { locations, fetchData, company } = useContext(AppContext);
+  const { locations, fetchData, company, isLoading } = useContext(AppContext);
   const accessToken = localStorage.getItem("accessToken");
 
   const [newLocation, setNewLocation] = useState({
@@ -13,6 +13,12 @@ const Locations = () => {
     address: "",
     companyId: company?.id,
   });
+
+  useEffect(() => {
+    if (company) {
+      setNewLocation({ ...newLocation, companyId: company?.id });
+    }
+  }, [company]);
 
   const createNewLocation = async () => {
     await fetch(`${config.apiBaseUrl}/locations`, {
@@ -30,6 +36,8 @@ const Locations = () => {
       companyId: company?.id,
     });
   };
+
+  if (isLoading) return null;
 
   return (
     <Layout title="Locations">
@@ -55,7 +63,9 @@ const Locations = () => {
             </Box>
           );
         })}
-        <Box sx={{ mt: 5, ml: 13.5, display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{ mt: 5, ml: 13.5, display: "flex", alignItems: "center", mb: 5 }}
+        >
           <TextField
             value={newLocation.name}
             onChange={(event) =>

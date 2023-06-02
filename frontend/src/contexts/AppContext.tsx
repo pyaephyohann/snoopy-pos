@@ -20,6 +20,7 @@ interface DefaultContextType {
   addons: Addons[];
   updateData: (value: any) => void;
   fetchData: () => void;
+  isLoading: boolean;
 }
 
 const defaultContext = {
@@ -32,6 +33,7 @@ const defaultContext = {
   addons: [],
   updateData: () => {},
   fetchData: () => {},
+  isLoading: false,
 };
 
 export const AppContext = createContext<DefaultContextType>(defaultContext);
@@ -48,6 +50,7 @@ const AppProvider = ({ children }: any) => {
   }, [accessToken]);
 
   const fetchData = async () => {
+    updateData({ ...data, isLoading: true });
     const response = await fetch(config.apiBaseUrl, {
       headers: {
         authorization: `Bearer ${accessToken}`,
@@ -72,6 +75,7 @@ const AppProvider = ({ children }: any) => {
       menuCategories,
       addonCategories,
       addons,
+      isLoading: false,
     });
   };
 

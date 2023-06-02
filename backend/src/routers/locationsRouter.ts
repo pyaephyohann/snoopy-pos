@@ -4,7 +4,9 @@ import { checkAuth } from "../utils/auth";
 
 const locationsRouter = express.Router();
 
-locationsRouter.put("/", checkAuth, async (req: Request, res: Response) => {});
+locationsRouter.put("/", checkAuth, async (req: Request, res: Response) => {
+  res.sendStatus(200);
+});
 
 locationsRouter.post("/", checkAuth, async (req: Request, res: Response) => {
   const { name, address, companyId } = req.body;
