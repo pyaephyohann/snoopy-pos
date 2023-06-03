@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { checkAuth } from "../utils/auth";
 import { db } from "./../db/db";
+import { fileUpload } from "../utils/fileUpload";
 
 const appRouter = express.Router();
 
@@ -64,6 +65,23 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     addonCategories: addonCategories.rows,
     addons: addons.rows,
   });
+});
+
+appRouter.post("/assets", (req: Request, res: Response) => {
+  try {
+    fileUpload(req, res, async (error) => {
+      if (error) {
+        return res.sendStatus(500);
+      }
+      const files = req.files as Express.MulterS3.File[];
+      const file = files[0];
+      const assetUrl = file.location;
+      res.send({ assetUrl });
+    });
+  } catch (err) {
+    console.log(err);
+    res.sendStatus(500);
+  }
 });
 
 export default appRouter;
