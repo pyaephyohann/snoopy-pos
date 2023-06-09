@@ -21,20 +21,16 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     [companyId]
   );
   const locationIds = locationsResult.rows.map((row) => row.id);
-  const menusLocations = await db.query(
-    "select * from menus_locations where locations_id = ANY($1::int[])",
+  const menusMenuCategoriesLocations = await db.query(
+    "select * from menus_menu_categories_locations where locations_id = ANY($1::int[])",
     [locationIds]
   );
-  const menusIds = menusLocations.rows.map((row) => row.menus_id);
+  const menusIds = menusMenuCategoriesLocations.rows.map((row) => row.menus_id);
   const menus = await db.query(
     "select * from menus where id = ANY($1::int[])",
     [menusIds]
   );
-  const menusMenuCategories = await db.query(
-    "select * from menus_menu_categories where menus_id = ANY($1::int[])",
-    [menusIds]
-  );
-  const menuCategoriesIds = menusMenuCategories.rows.map(
+  const menuCategoriesIds = menusMenuCategoriesLocations.rows.map(
     (row) => row.menu_categories_id
   );
   const menuCategories = await db.query(

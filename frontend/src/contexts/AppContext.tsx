@@ -66,6 +66,7 @@ const AppProvider = ({ children }: any) => {
       addonCategories,
       addons,
     } = responseJson;
+    console.log(responseJson);
     updateData({
       ...data,
       user,

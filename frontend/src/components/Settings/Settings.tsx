@@ -39,12 +39,12 @@ const Settings = () => {
     <Layout title="Settings">
       <Box sx={{ width: "15rem", m: "0 auto", mt: "5rem" }}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <InputLabel id="demo-simple-select-label">Autocomplete</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={selectedLocationId}
-            label="Age"
+            label="Autocomplete"
             onChange={handleChange}
           >
             {locations.map((location) => {
