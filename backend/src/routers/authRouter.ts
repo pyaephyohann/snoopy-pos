@@ -50,28 +50,22 @@ authRouter.post("/register", async (req: Request, res: Response) => {
     );
     const defaultMenuId1 = menusResult.rows[0].id;
     const defaultMenuId2 = menusResult.rows[1].id;
-    await db.query(
-      "insert into menus_locations (menus_id, locations_id) select * from unnest ($1::int[], $2::int[])",
-      [
-        [defaultMenuId1, defaultMenuId2],
-        [defaultLocationId, defaultLocationId],
-      ]
-    );
     const menuCategoriesResult = await db.query(
       "insert into menu_categories (name) select * from unnest ($1::text[]) returning *",
       [["Default-menu-categories-1", "default-menu-categories-2"]]
     );
     const defaultMenuCategoriesId1 = menuCategoriesResult.rows[0].id;
     const defaultMenuCategoriesId2 = menuCategoriesResult.rows[1].id;
+    const addonCategoriesResult = await db.query(
+      "insert into addon_categories (name, is_required) values('Drinks', true), ('Sizes', true) returning *"
+    );
     await db.query(
-      "insert into menus_menu_categories (menus_id, menu_categories_id) select * from unnest ($1::int[], $2::int[])",
+      "insert into menus_menu_categories_locations (menus_id, menu_categories_id, locations_id) select * from unnest ($1::int[], $2::int[], $3::int[])",
       [
         [defaultMenuId1, defaultMenuId2],
         [defaultMenuCategoriesId1, defaultMenuCategoriesId2],
+        [defaultLocationId, defaultLocationId],
       ]
-    );
-    const addonCategoriesResult = await db.query(
-      "insert into addon_categories (name, is_required) values('Drinks', true), ('Sizes', true) returning *"
     );
     const defaultAddonCategoriesId1 = addonCategoriesResult.rows[0].id;
     const defaultAddonCategoriesId2 = addonCategoriesResult.rows[1].id;
