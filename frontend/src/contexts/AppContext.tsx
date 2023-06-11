@@ -6,6 +6,7 @@ import {
   Locations,
   MenuCategories,
   Menus,
+  Tables,
   User,
 } from "../typings/types";
 import { config } from "../config/config";
@@ -18,6 +19,7 @@ interface DefaultContextType {
   menuCategories: MenuCategories[];
   addonCategories: AddonCategories[];
   addons: Addons[];
+  tables: Tables[];
   updateData: (value: any) => void;
   fetchData: () => void;
   isLoading: boolean;
@@ -31,6 +33,7 @@ const defaultContext = {
   menuCategories: [],
   addonCategories: [],
   addons: [],
+  tables: [],
   updateData: () => {},
   fetchData: () => {},
   isLoading: false,
@@ -65,8 +68,9 @@ const AppProvider = ({ children }: any) => {
       menuCategories,
       addonCategories,
       addons,
+      tables,
     } = responseJson;
-    console.log(responseJson);
+
     updateData({
       ...data,
       user,
@@ -76,6 +80,7 @@ const AppProvider = ({ children }: any) => {
       menuCategories,
       addonCategories,
       addons,
+      tables,
       isLoading: false,
     });
   };

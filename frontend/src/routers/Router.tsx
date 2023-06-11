@@ -11,6 +11,7 @@ import Logout from "../components/Logout/Logout";
 import Register from "../components/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import CreateMenu from "../components/CreateMenu/CreateMenu";
+import Tables from "../components/Tables/Tables";
 
 const Router = () => {
   return (
@@ -25,6 +26,7 @@ const Router = () => {
           <Route path="/addons" Component={Addons} />
           <Route path="/addon-categories" Component={AddonCategories} />
           <Route path="/locations" Component={Locations} />
+          <Route path="/tables" Component={Tables} />
           <Route path="/settings" Component={Settings} />
         </Route>
         <Route path="/login" Component={Login} />

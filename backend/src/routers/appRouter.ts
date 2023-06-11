@@ -52,6 +52,10 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     "select * from addons where addon_categories_id = ANY($1::int[])",
     [addonCategoriesIds]
   );
+  const tables = await db.query(
+    "select * from tables where locations_id = ANY($1::int[])",
+    [[locationIds]]
+  );
   res.send({
     user: user.rows[0],
     company: company.rows[0],
@@ -60,6 +64,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     menuCategories: menuCategories.rows,
     addonCategories: addonCategories.rows,
     addons: addons.rows,
+    tables: tables.rows,
   });
 });
 

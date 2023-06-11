@@ -22,6 +22,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
+import TableBarIcon from "@mui/icons-material/TableBar";
 import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
@@ -53,11 +54,17 @@ const NavBar = ({ title }: Props) => {
     },
     {
       id: 6,
+      label: "Tables",
+      icon: <TableBarIcon />,
+      route: "/tables",
+    },
+    {
+      id: 7,
       label: "Locations",
       icon: <LocationOnIcon />,
       route: "/locations",
     },
-    { id: 7, label: "Settings", icon: <SettingsIcon />, route: "/settings" },
+    { id: 8, label: "Settings", icon: <SettingsIcon />, route: "/settings" },
   ];
 
   const renderDrawer = () => (
@@ -68,7 +75,7 @@ const NavBar = ({ title }: Props) => {
       onKeyDown={() => setOpen(false)}
     >
       <List>
-        {sidebarMenuItems.slice(0, 6).map((menuItem) => (
+        {sidebarMenuItems.slice(0, 7).map((menuItem) => (
           <Link
             style={{ textDecoration: "none", color: "black" }}
             to={menuItem.route}

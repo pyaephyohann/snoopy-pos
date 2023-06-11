@@ -32,3 +32,7 @@ export interface Addons extends BaseType {
   price: number;
   addon_categories_id: number;
 }
+
+export interface Tables extends BaseType {
+  locations_id: number;
+}

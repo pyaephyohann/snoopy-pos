@@ -12,6 +12,7 @@ import { menuCategoriesRouter } from "./src/routers/menuCategoriesRouter";
 import menusRouter from "./src/routers/menusRouter";
 import appRouter from "./src/routers/appRouter";
 import locationsRouter from "./src/routers/locationsRouter";
+import { tablesRouter } from "./src/routers/tablesRouter";
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/menus", menusRouter);
 app.use("/locations", locationsRouter);
 app.use("/menu-categories", menuCategoriesRouter);
 app.use("/auth", authRouter);
+app.use("/tables", tablesRouter);
 
 app.listen(5000, () => {
   console.log("express is listening on port 5000");
