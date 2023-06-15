@@ -10,7 +10,7 @@ import {
 import Layout from "../Layout/Layout";
 import { useContext, useState } from "react";
 import { config } from "../../config/config";
-import { getAccessToken, getSelectedLocationId } from "../../utils/generals";
+import { getAccessToken, getSelectedLocationId } from "../../utils";
 import { AppContext } from "../../contexts/AppContext";
 
 const Tables = () => {

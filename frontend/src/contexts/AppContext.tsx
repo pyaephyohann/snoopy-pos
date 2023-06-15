@@ -6,6 +6,8 @@ import {
   Locations,
   MenuCategories,
   Menus,
+  MenusAddonCategories,
+  MenusMenuCategoriesLocations,
   Tables,
   User,
 } from "../typings/types";
@@ -20,6 +22,8 @@ interface DefaultContextType {
   addonCategories: AddonCategories[];
   addons: Addons[];
   tables: Tables[];
+  menusMenuCategoriesLocations: MenusMenuCategoriesLocations[];
+  menusAddonCategories: MenusAddonCategories[];
   updateData: (value: any) => void;
   fetchData: () => void;
   isLoading: boolean;
@@ -34,6 +38,8 @@ const defaultContext = {
   addonCategories: [],
   addons: [],
   tables: [],
+  menusMenuCategoriesLocations: [],
+  menusAddonCategories: [],
   updateData: () => {},
   fetchData: () => {},
   isLoading: false,
@@ -69,6 +75,8 @@ const AppProvider = ({ children }: any) => {
       addonCategories,
       addons,
       tables,
+      menusMenuCategoriesLocations,
+      menusAddonCategories,
     } = responseJson;
 
     updateData({
@@ -81,6 +89,8 @@ const AppProvider = ({ children }: any) => {
       addonCategories,
       addons,
       tables,
+      menusMenuCategoriesLocations,
+      menusAddonCategories,
       isLoading: false,
     });
   };

@@ -65,6 +65,8 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     addonCategories: addonCategories.rows,
     addons: addons.rows,
     tables: tables.rows,
+    menusMenuCategoriesLocations: menusMenuCategoriesLocations.rows,
+    menusAddonCategories: menusAddonCategories.rows,
   });
 });
 

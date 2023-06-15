@@ -36,3 +36,16 @@ export interface Addons extends BaseType {
 export interface Tables extends BaseType {
   locations_id: number;
 }
+
+export interface MenusMenuCategoriesLocations {
+  id: number;
+  menus_id: number;
+  menu_categories_id: number;
+  locations_id: number;
+}
+
+export interface MenusAddonCategories {
+  id: number;
+  menus_id: number;
+  addon_categories_id: number;
+}
