@@ -22,7 +22,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
   );
   const locationIds = locationsResult.rows.map((row) => row.id);
   const menusMenuCategoriesLocations = await db.query(
-    "select * from menus_menu_categories_locations where locations_id = ANY($1::int[])",
+    "select * from menus_menu_categories_locations where is_archived = false and locations_id = ANY($1::int[])",
     [locationIds]
   );
   const menusIds = menusMenuCategoriesLocations.rows.map((row) => row.menus_id);
