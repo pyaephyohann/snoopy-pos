@@ -80,3 +80,20 @@ export const getLocationsByMenuCategoryId = (
     .map((item) => item.locations_id);
   return locations.filter((item) => validLocationIds.includes(item.id));
 };
+
+export const getMenusByMenuCategoryId = (
+  menus: Menus[],
+  menusMenuCategoriesLocations: MenusMenuCategoriesLocations[],
+  menuCategoryId: string
+) => {
+  const selectedLocationId = getSelectedLocationId();
+  const validMenuIds = menusMenuCategoriesLocations
+    .filter(
+      (item) =>
+        item.menus_id &&
+        item.menu_categories_id === Number(menuCategoryId) &&
+        item.locations_id === Number(selectedLocationId)
+    )
+    .map((item) => item.menus_id);
+  return menus.filter((item) => validMenuIds.includes(item.id));
+};

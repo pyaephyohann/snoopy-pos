@@ -3,12 +3,17 @@ import Layout from "../Layout/Layout";
 import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { Box, Button, TextField, Typography } from "@mui/material";
-import { getAccessToken, getLocationsByMenuCategoryId } from "../../utils";
+import {
+  getAccessToken,
+  getLocationsByMenuCategoryId,
+  getMenusByMenuCategoryId,
+} from "../../utils";
 import Autocomplete from "../Autocomplete/Autocomplete";
 import { config } from "../../config/config";
+import MenuCard from "../MenuCard/MenuCard";
 
 const EditMenuCategory = () => {
-  const { menuCategories, locations, menusMenuCategoriesLocations } =
+  const { menuCategories, locations, menusMenuCategoriesLocations, menus } =
     useContext(AppContext);
 
   const params = useParams();
@@ -54,6 +59,14 @@ const EditMenuCategory = () => {
     });
   };
 
+  const validMenus = getMenusByMenuCategoryId(
+    menus,
+    menusMenuCategoriesLocations,
+    menuCategoryId
+  );
+
+  console.log(validMenus);
+
   if (!menuCategory)
     return (
       <Layout title="Edit Menu Category">
@@ -88,6 +101,11 @@ const EditMenuCategory = () => {
         <Button onClick={updateMenuCategory} variant="contained">
           Update
         </Button>
+      </Box>
+      <Box sx={{ mt: 6, ml: 10 }}>
+        {validMenus.map((item) => {
+          return <MenuCard key={item.id} menu={item} />;
+        })}
       </Box>
     </Layout>
   );
