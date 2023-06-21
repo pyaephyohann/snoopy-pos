@@ -11,13 +11,22 @@ menusRouter.get("/", checkAuth, async (req: Request, res: Response) => {
 });
 
 menusRouter.post("/", checkAuth, async (req: Request, res: Response) => {
-  const { name, description, price, assetUrl } = req.body;
-  const isValid = name && description && price && assetUrl;
+  const { name, description, price, assetUrl, menuCategorieIds, locationId } =
+    req.body;
+  const isValid =
+    name && description && price && assetUrl && menuCategorieIds.length;
   if (!isValid) return res.sendStatus(400);
-  await db.query(
-    "insert into menus (name, description, price, asset_url) values ($1, $2, $3, $4)",
+  const menuResult = await db.query(
+    "insert into menus (name, description, price, asset_url) values ($1, $2, $3, $4) returning *",
     [name, description, price, assetUrl]
   );
+  const menuId = menuResult.rows[0].id;
+  menuCategorieIds.forEach(async (item: number) => {
+    await db.query(
+      "insert into menus_menu_categories_locations (menus_id, menu_categories_id, locations_id) values($1, $2, $3)",
+      [menuId, item, Number(locationId)]
+    );
+  });
   res.sendStatus(200);
 });
 

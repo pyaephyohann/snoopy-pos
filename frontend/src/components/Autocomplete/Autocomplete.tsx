@@ -1,4 +1,3 @@
-import * as React from "react";
 import Checkbox from "@mui/material/Checkbox";
 import TextField from "@mui/material/TextField";
 import MuiAutocomplete from "@mui/material/Autocomplete";
@@ -35,7 +34,7 @@ const Autocomplete = ({
       disableCloseOnSelect
       defaultValue={defaultValue}
       getOptionLabel={(option) => option.name}
-      isOptionEqualToValue={(option, value) => option.id == value.id}
+      isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(event, values) => onChange(values)}
       renderOption={(props, option, { selected }) => (
         <li {...props}>
