@@ -49,7 +49,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     [addonCategoriesIds]
   );
   const addons = await db.query(
-    "select * from addons where addon_categories_id = ANY($1::int[])",
+    "select * from addons where addon_categories_id = ANY($1::int[]) and is_archived = false",
     [addonCategoriesIds]
   );
   const tables = await db.query(

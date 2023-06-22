@@ -12,6 +12,7 @@ import Register from "../components/Register/Register";
 import PrivateRoute from "./PrivateRoute";
 import Tables from "../components/Tables/Tables";
 import EditMenuCategory from "../components/EditMenuCategory/EditMenuCategory";
+import EditAddon from "../components/EditAddon/EditAddon";
 
 const Router = () => {
   return (
@@ -24,6 +25,7 @@ const Router = () => {
           <Route path="/menu-categories" Component={MenuCategories} />
           <Route path="/menu-categories/:id" Component={EditMenuCategory} />
           <Route path="/addons" Component={Addons} />
+          <Route path="/addons/:id" Component={EditAddon} />
           <Route path="/addon-categories" Component={AddonCategories} />
           <Route path="/locations" Component={Locations} />
           <Route path="/tables" Component={Tables} />
