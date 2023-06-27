@@ -1,8 +1,8 @@
 import { Typography } from "@mui/material";
+import { useContext } from "react";
+import { Navigate } from "react-router-dom";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
-import { Navigate } from "react-router-dom";
-import { useContext } from "react";
 import { AppContext } from "./contexts/AppContext";
 
 function App() {
@@ -14,7 +14,9 @@ function App() {
 
   return (
     <Layout>
-      <Typography variant="h2">Welcome from Snoopy POS</Typography>
+      <Typography sx={{ textAlign: "center", mt: 10 }} variant="h2">
+        Welcome from Snoopy POS
+      </Typography>
     </Layout>
   );
 }

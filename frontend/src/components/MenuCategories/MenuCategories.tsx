@@ -1,9 +1,12 @@
 import { Box, Typography } from "@mui/material";
-import Layout from "../Layout/Layout";
 import { useContext } from "react";
-import { AppContext } from "../../contexts/AppContext";
-import { getMenuCategoriesByLocationId } from "../../utils";
 import { Link } from "react-router-dom";
+import { AppContext } from "../../contexts/AppContext";
+import {
+  getMenuCategoriesByLocationId,
+  getSelectedLocationId,
+} from "../../utils";
+import Layout from "../Layout/Layout";
 
 const MenuCategories = () => {
   const { menusMenuCategoriesLocations, menuCategories } =
@@ -12,6 +15,17 @@ const MenuCategories = () => {
     menusMenuCategoriesLocations,
     menuCategories
   );
+
+  const selectedLocationId = getSelectedLocationId();
+
+  const getMenusCount = (menuCategoryId: number) => {
+    return menusMenuCategoriesLocations.filter(
+      (item) =>
+        item.menu_categories_id === menuCategoryId &&
+        item.menus_id &&
+        item.locations_id === Number(selectedLocationId)
+    ).length;
+  };
 
   return (
     <Layout title="MenuCategories">
@@ -27,16 +41,32 @@ const MenuCategories = () => {
                 sx={{
                   width: "10rem",
                   height: "10rem",
-                  borderRadius: "3rem",
-                  border: "2px solid lightgray",
+                  borderRadius: "1.5rem",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  backgroundColor: "#9575DE",
                   ml: "3rem",
                   mt: "3rem",
+                  position: "relative",
+                  color: "white",
                 }}
               >
-                <Typography>{item.name}</Typography>
+                <Typography sx={{ mt: 1 }} variant="h5">
+                  {item.name}
+                </Typography>
+                <Typography
+                  sx={{
+                    position: "absolute",
+                    top: "0.5rem",
+                    right: "8px",
+                    p: "0.5rem",
+                    backgroundColor: "#FF78C4",
+                    borderRadius: "3rem",
+                  }}
+                >
+                  {getMenusCount(item.id)} menus
+                </Typography>
               </Box>
             </Link>
           );
