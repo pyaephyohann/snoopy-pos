@@ -10,8 +10,10 @@ import Login from "../components/Login/Login";
 import Logout from "../components/Logout/Logout";
 import Register from "../components/Register/Register";
 import PrivateRoute from "./PrivateRoute";
-import CreateMenu from "../components/CreateMenu/CreateMenu";
 import Tables from "../components/Tables/Tables";
+import EditMenuCategory from "../components/EditMenuCategory/EditMenuCategory";
+import EditAddon from "../components/EditAddon/EditAddon";
+import EditMenu from "../components/EditMenu/EditMenu";
 
 const Router = () => {
   return (
@@ -21,9 +23,11 @@ const Router = () => {
           <Route path="/" Component={App} />
           <Route path="/orders" Component={App} />
           <Route path="/menus" Component={Menus} />
-          <Route path="/create-menu" Component={CreateMenu} />
+          <Route path="/menus/:id" Component={EditMenu} />
           <Route path="/menu-categories" Component={MenuCategories} />
+          <Route path="/menu-categories/:id" Component={EditMenuCategory} />
           <Route path="/addons" Component={Addons} />
+          <Route path="/addons/:id" Component={EditAddon} />
           <Route path="/addon-categories" Component={AddonCategories} />
           <Route path="/locations" Component={Locations} />
           <Route path="/tables" Component={Tables} />

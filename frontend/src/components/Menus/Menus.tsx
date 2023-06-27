@@ -1,37 +1,66 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Layout from "../Layout/Layout";
 import { AppContext } from "../../contexts/AppContext";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import { getMenusByLocationId } from "../../utils";
+import AddIcon from "@mui/icons-material/Add";
+import CreateMenu from "../CreateMenu/CreateMenu";
+import { Link } from "react-router-dom";
 
 const Menus = () => {
   const { menus, menusMenuCategoriesLocations } = useContext(AppContext);
-
+  const [open, setOpen] = useState(false);
   const validMenus = getMenusByLocationId(menusMenuCategoriesLocations, menus);
 
   return (
     <Layout title="Menus">
+      <Box sx={{ mt: 4, mr: 5, display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          onClick={() => setOpen(true)}
+          variant="contained"
+          startIcon={<AddIcon />}
+        >
+          Create Menu
+        </Button>
+      </Box>
       <Box sx={{ display: "flex" }}>
         {validMenus.map((item) => {
           return (
-            <Box
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
               key={item.id}
-              sx={{
-                width: "10rem",
-                height: "10rem",
-                borderRadius: "3rem",
-                border: "2px solid lightgray",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                ml: "3rem",
-                mt: "3rem",
-              }}
+              to={`${item.id}`}
             >
-              <Typography>{item.name}</Typography>
-            </Box>
+              <Box
+                sx={{
+                  ml: "3rem",
+                  mt: "3rem",
+                  backgroundColor: "lightgray",
+                  padding: "1rem",
+                  borderRadius: "1rem",
+                }}
+              >
+                <Typography
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {item.name}
+                </Typography>
+                <img
+                  style={{ height: "10rem", borderRadius: "1rem" }}
+                  src={item.asset_url}
+                  alt={item.asset_url}
+                />
+              </Box>
+            </Link>
           );
         })}
+      </Box>
+      <Box>
+        <CreateMenu open={open} setOpen={setOpen} />
       </Box>
     </Layout>
   );

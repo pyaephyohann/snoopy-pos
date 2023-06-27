@@ -6,6 +6,7 @@ import {
   getAddonCategoriesByLocation,
   getAddonsByLocationId,
 } from "../../utils";
+import { Link } from "react-router-dom";
 
 const Addons = () => {
   const {
@@ -28,22 +29,27 @@ const Addons = () => {
       <Box sx={{ display: "flex" }}>
         {validAddons.map((item) => {
           return (
-            <Box
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
               key={item.id}
-              sx={{
-                width: "10rem",
-                height: "10rem",
-                borderRadius: "3rem",
-                border: "2px solid lightgray",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                ml: "3rem",
-                mt: "3rem",
-              }}
+              to={`${item.id}`}
             >
-              <Typography>{item.name}</Typography>
-            </Box>
+              <Box
+                sx={{
+                  width: "10rem",
+                  height: "10rem",
+                  borderRadius: "3rem",
+                  border: "2px solid lightgray",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  ml: "3rem",
+                  mt: "3rem",
+                }}
+              >
+                <Typography>{item.name}</Typography>
+              </Box>
+            </Link>
           );
         })}
       </Box>

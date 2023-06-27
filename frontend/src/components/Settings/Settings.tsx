@@ -11,7 +11,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 
 const Settings = () => {
-  const { locations } = useContext(AppContext);
+  const { locations, fetchData } = useContext(AppContext);
 
   const [selectedLocationId, setSelectedLocationId] = useState<string>("");
 
@@ -33,6 +33,7 @@ const Settings = () => {
     const locationId = event.target.value;
     setSelectedLocationId(locationId);
     localStorage.setItem("selectedLocationId", locationId);
+    fetchData();
   };
 
   return (
