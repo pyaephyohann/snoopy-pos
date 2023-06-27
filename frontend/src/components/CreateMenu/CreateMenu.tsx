@@ -90,7 +90,7 @@ const CreateMenu = ({ open, setOpen }: Props) => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              width: "30rem",
+              width: "25rem",
               m: "0 auto",
             }}
           >
@@ -152,7 +152,7 @@ const CreateMenu = ({ open, setOpen }: Props) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Box sx={{ mb: 2 }}>
+          <Box sx={{ mb: 2, mr: 2 }}>
             <Button
               onClick={createNewMenu}
               sx={{ width: "fit-content" }}

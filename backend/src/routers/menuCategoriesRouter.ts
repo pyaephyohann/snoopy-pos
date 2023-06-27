@@ -58,3 +58,45 @@ menuCategoriesRouter.put("/", async (req: Request, res: Response) => {
 
   res.send(existingLocations.rows);
 });
+
+menuCategoriesRouter.put("/removeMenu", async (req: Request, res: Response) => {
+  const { menuId, menuCategoryId, locationId } = req.body;
+  const isValid = menuId && menuCategoryId && locationId;
+  if (!isValid) return res.sendStatus(400);
+  const existingMenusMenuCategoriesLocations = await db.query(
+    "select * from menus_menu_categories_locations where menus_id = $1 and menu_categories_id = $2 and locations_id = $3",
+    [menuId, menuCategoryId, locationId]
+  );
+  const hasExistingMenusMenuCategoriesLocations =
+    existingMenusMenuCategoriesLocations.rows.length;
+  if (!hasExistingMenusMenuCategoriesLocations) return res.sendStatus(400);
+  await db.query(
+    "update menus_menu_categories_locations set is_archived = true where menus_id = $1 and menu_categories_id = $2 and locations_id = $3",
+    [menuId, menuCategoryId, locationId]
+  );
+  res.send(200);
+});
+
+menuCategoriesRouter.delete(
+  "/:menuCategoryId",
+  async (req: Request, res: Response) => {
+    const { locationId } = req.body;
+    const isValid = locationId && req.params.menuCategoryId;
+    if (!isValid) return res.sendStatus(400);
+    const existingMenusMenuCategoriesLocations = await db.query(
+      "select * from menus_menu_categories_locations where menu_categories_id = $1 and locations_id = $2",
+      [req.params.menuCategoryId, locationId]
+    );
+    const hasExistingMenusMenuCategoriesLocations =
+      existingMenusMenuCategoriesLocations.rows.length;
+    if (!hasExistingMenusMenuCategoriesLocations) return res.sendStatus(400);
+    existingMenusMenuCategoriesLocations.rows.forEach(async (item) => {
+      const menusMenuCategoriesLocationsId = item.id;
+      await db.query(
+        "update menus_menu_categories_locations set is_archived = true where id = $1",
+        [menusMenuCategoriesLocationsId]
+      );
+    });
+    res.sendStatus(200);
+  }
+);

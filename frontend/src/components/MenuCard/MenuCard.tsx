@@ -12,7 +12,7 @@ interface Props {
 
 const MenuCard = ({ menu }: Props) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345, mr: 5 }}>
       <CardActionArea>
         <CardMedia
           component="img"

@@ -30,4 +30,49 @@ menusRouter.post("/", checkAuth, async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
+menusRouter.put("/", checkAuth, async (req: Request, res: Response) => {
+  const { menuId, name, description, assetUrl } = req.body;
+  if (name) {
+    await db.query("update menus set name = $1 where id = $2", [name, menuId]);
+  }
+  if (description) {
+    await db.query("update menus set description = $1 where id = $2", [
+      description,
+      menuId,
+    ]);
+  }
+  if (assetUrl) {
+    await db.query("update menus set asset_url = $1 where id = $2", [
+      assetUrl,
+      menuId,
+    ]);
+  }
+  const existingMenu = await db.query("select * from menus where id = $1", [
+    menuId,
+  ]);
+  const price = req.body.price || existingMenu.rows[0].price;
+  await db.query("update menus set price = $1 where id = $2", [price, menuId]);
+  res.sendStatus(200);
+});
+
+menusRouter.delete("/", checkAuth, async (req: Request, res: Response) => {
+  const { menuId, locationId } = req.body;
+  const isValid = menuId && locationId;
+  if (!isValid) return res.sendStatus(400);
+  const existingMenusMenuCategoriesLocations = await db.query(
+    "select * from menus_menu_categories_locations where menus_id = $1 and locations_id = $2",
+    [menuId, locationId]
+  );
+  const hasExistingMenusMenuCategoriesLocations =
+    existingMenusMenuCategoriesLocations.rows.length;
+  if (!hasExistingMenusMenuCategoriesLocations) return res.sendStatus(400);
+  existingMenusMenuCategoriesLocations.rows.forEach(async (item) => {
+    await db.query(
+      "update menus_menu_categories_locations set is_archived = true where menus_id = $1 and locations_id = $2",
+      [menuId, locationId]
+    );
+  });
+  res.sendStatus(200);
+});
+
 export default menusRouter;

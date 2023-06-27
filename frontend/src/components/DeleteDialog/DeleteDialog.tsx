@@ -26,7 +26,13 @@ const DeleteDialog = ({ title, open, setOpen, callBack }: Props) => {
       </DialogContent>
       <DialogActions>
         <Box sx={{ pb: 2 }}>
-          <Button sx={{ mr: 5 }} variant="outlined">
+          <Button
+            onClick={() => {
+              setOpen(false);
+            }}
+            sx={{ mr: 5 }}
+            variant="outlined"
+          >
             Cancel
           </Button>
           <Button

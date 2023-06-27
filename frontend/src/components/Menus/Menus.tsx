@@ -5,6 +5,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { getMenusByLocationId } from "../../utils";
 import AddIcon from "@mui/icons-material/Add";
 import CreateMenu from "../CreateMenu/CreateMenu";
+import { Link } from "react-router-dom";
 
 const Menus = () => {
   const { menus, menusMenuCategoriesLocations } = useContext(AppContext);
@@ -25,31 +26,36 @@ const Menus = () => {
       <Box sx={{ display: "flex" }}>
         {validMenus.map((item) => {
           return (
-            <Box
+            <Link
+              style={{ textDecoration: "none", color: "black" }}
               key={item.id}
-              sx={{
-                ml: "3rem",
-                mt: "3rem",
-                backgroundColor: "lightgray",
-                padding: "1rem",
-                borderRadius: "1rem",
-              }}
+              to={`${item.id}`}
             >
-              <Typography
-                style={{
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginBottom: "1rem",
+              <Box
+                sx={{
+                  ml: "3rem",
+                  mt: "3rem",
+                  backgroundColor: "lightgray",
+                  padding: "1rem",
+                  borderRadius: "1rem",
                 }}
               >
-                {item.name}
-              </Typography>
-              <img
-                style={{ height: "10rem", borderRadius: "1rem" }}
-                src={item.asset_url}
-                alt={item.asset_url}
-              />
-            </Box>
+                <Typography
+                  style={{
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  {item.name}
+                </Typography>
+                <img
+                  style={{ height: "10rem", borderRadius: "1rem" }}
+                  src={item.asset_url}
+                  alt={item.asset_url}
+                />
+              </Box>
+            </Link>
           );
         })}
       </Box>

@@ -47,7 +47,7 @@ const Autocomplete = ({
           {option.name}
         </li>
       )}
-      style={{ width: 500 }}
+      style={{ width: 400 }}
       renderInput={(params) => (
         <TextField {...params} label={label} placeholder={placeholder} />
       )}
