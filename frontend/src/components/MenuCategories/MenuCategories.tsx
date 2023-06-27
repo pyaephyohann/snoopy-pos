@@ -1,11 +1,13 @@
-import { Box, Typography } from "@mui/material";
-import { useContext } from "react";
+import AddIcon from "@mui/icons-material/Add";
+import { Box, Button, Typography } from "@mui/material";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../../contexts/AppContext";
 import {
   getMenuCategoriesByLocationId,
   getSelectedLocationId,
 } from "../../utils";
+import CreateMenuCategory from "../CreateMenuCategory/CreateMenuCategory";
 import Layout from "../Layout/Layout";
 
 const MenuCategories = () => {
@@ -15,6 +17,8 @@ const MenuCategories = () => {
     menusMenuCategoriesLocations,
     menuCategories
   );
+
+  const [open, setOpen] = useState(false);
 
   const selectedLocationId = getSelectedLocationId();
 
@@ -29,6 +33,15 @@ const MenuCategories = () => {
 
   return (
     <Layout title="MenuCategories">
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mt: 4, mr: 5 }}>
+        <Button
+          onClick={() => setOpen(true)}
+          variant="contained"
+          startIcon={<AddIcon />}
+        >
+          Create Menu Category
+        </Button>
+      </Box>
       <Box sx={{ display: "flex" }}>
         {validMenuCategories.map((item) => {
           return (
@@ -63,6 +76,7 @@ const MenuCategories = () => {
                     p: "0.5rem",
                     backgroundColor: "#FF78C4",
                     borderRadius: "3rem",
+                    fontSize: "0.8rem",
                   }}
                 >
                   {getMenusCount(item.id)} menus
@@ -72,6 +86,7 @@ const MenuCategories = () => {
           );
         })}
       </Box>
+      <CreateMenuCategory open={open} setOpen={setOpen} />
     </Layout>
   );
 };

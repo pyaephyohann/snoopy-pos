@@ -100,3 +100,21 @@ menuCategoriesRouter.delete(
     res.sendStatus(200);
   }
 );
+
+menuCategoriesRouter.post("/", async (req: Request, res: Response) => {
+  const { name, locationIds } = req.body;
+  const isValid = name && locationIds.length;
+  if (!isValid) return res.sendStatus(400);
+  const newMenuCategoryResult = await db.query(
+    "insert into menu_categories (name) values ($1) returning *",
+    [name]
+  );
+  const newMenuCategoryId = newMenuCategoryResult.rows[0].id;
+  locationIds.forEach(async (item: number) => {
+    await db.query(
+      "insert into menus_menu_categories_locations (menu_categories_id, locations_id) values ($1, $2)",
+      [newMenuCategoryId, item]
+    );
+  });
+  res.sendStatus(200);
+});
