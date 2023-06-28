@@ -37,7 +37,7 @@ const Autocomplete = ({
       isOptionEqualToValue={(option, value) => option.id === value.id}
       onChange={(event, values) => onChange(values)}
       renderOption={(props, option, { selected }) => (
-        <li {...props}>
+        <li {...props} key={option.id}>
           <Checkbox
             icon={icon}
             checkedIcon={checkedIcon}

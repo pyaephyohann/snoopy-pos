@@ -1,8 +1,10 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Layout from "../Layout/Layout";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { getAddonCategoriesByLocation } from "../../utils";
+import AddIcon from "@mui/icons-material/Add";
+import CreateAddonCategory from "../CreateAddonCategory copy/CreateAddonCategory";
 
 const AddonCategories = () => {
   const {
@@ -10,6 +12,8 @@ const AddonCategories = () => {
     menusAddonCategories,
     addonCategories,
   } = useContext(AppContext);
+
+  const [open, setOpen] = useState(false);
 
   const validAddonCategories = getAddonCategoriesByLocation(
     menusMenuCategoriesLocations,
@@ -19,6 +23,15 @@ const AddonCategories = () => {
 
   return (
     <Layout title="AddonCategories">
+      <Box sx={{ mt: 4, mr: 5, display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          onClick={() => setOpen(true)}
+          variant="contained"
+          startIcon={<AddIcon />}
+        >
+          Create Addon Category
+        </Button>
+      </Box>
       <Box sx={{ display: "flex" }}>
         {validAddonCategories.map((item) => {
           return (
@@ -41,6 +54,7 @@ const AddonCategories = () => {
           );
         })}
       </Box>
+      <CreateAddonCategory open={open} setOpen={setOpen} />
     </Layout>
   );
 };
