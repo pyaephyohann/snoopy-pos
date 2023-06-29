@@ -38,7 +38,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     [menuCategoriesIds]
   );
   const menusAddonCategories = await db.query(
-    "select * from menus_addon_categories where menus_id = ANY($1::int[])",
+    "select * from menus_addon_categories where menus_id = ANY($1::int[]) and is_archived = false",
     [menusIds]
   );
   const addonCategoriesIds = menusAddonCategories.rows.map(

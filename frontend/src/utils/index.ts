@@ -97,3 +97,14 @@ export const getMenusByMenuCategoryId = (
     .map((item) => item.menus_id);
   return menus.filter((item) => validMenuIds.includes(item.id));
 };
+
+export const getMenusByAddonCategoryId = (
+  menusAddonCategories: MenusAddonCategories[],
+  menus: Menus[],
+  addonCategoryId: string
+) => {
+  const validMenuIds = menusAddonCategories
+    .filter((item) => item.addon_categories_id === Number(addonCategoryId))
+    .map((item) => item.menus_id);
+  return menus.filter((item) => validMenuIds.includes(item.id));
+};

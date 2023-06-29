@@ -25,3 +25,41 @@ addonCategoriesRouter.post(
     res.sendStatus(200);
   }
 );
+
+addonCategoriesRouter.put(
+  "/removeMenu",
+  checkAuth,
+  async (req: Request, res: Response) => {
+    const { menuId, addonCategoryId } = req.body;
+    if (!menuId) return res.sendStatus(400);
+    const existingMenusAddonCategories = await db.query(
+      "select * from menus_addon_categories where menus_id = $1 and addon_categories_id = $2",
+      [menuId, addonCategoryId]
+    );
+    const hasExistingMenusAddonCategories =
+      existingMenusAddonCategories.rows.length;
+    if (!hasExistingMenusAddonCategories) return res.sendStatus(400);
+    await db.query(
+      "update menus_addon_categories set is_archived = true where menus_id = $1 and addon_categories_id = $2",
+      [menuId, addonCategoryId]
+    );
+    res.sendStatus(200);
+  }
+);
+
+addonCategoriesRouter.put("/", async (req: Request, res: Response) => {
+  const { name, isRequired, addonCategoryId } = req.body;
+  if (name) {
+    await db.query("update addon_categories set name = $1 where id = $2", [
+      name,
+      addonCategoryId,
+    ]);
+  }
+  const hasIsRequired = isRequired !== undefined;
+  if (!hasIsRequired) return res.sendStatus(400);
+  await db.query("update addon_categories set is_required = $1 where id = $2", [
+    isRequired,
+    addonCategoryId,
+  ]);
+  res.sendStatus(200);
+});

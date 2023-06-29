@@ -5,6 +5,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { getAddonCategoriesByLocation } from "../../utils";
 import AddIcon from "@mui/icons-material/Add";
 import CreateAddonCategory from "../CreateAddonCategory copy/CreateAddonCategory";
+import { Link } from "react-router-dom";
 
 const AddonCategories = () => {
   const {
@@ -35,22 +36,27 @@ const AddonCategories = () => {
       <Box sx={{ display: "flex" }}>
         {validAddonCategories.map((item) => {
           return (
-            <Box
+            <Link
+              to={`${item.id}`}
+              style={{ textDecoration: "none", color: "black" }}
               key={item.id}
-              sx={{
-                width: "10rem",
-                height: "10rem",
-                borderRadius: "3rem",
-                border: "2px solid lightgray",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                ml: "3rem",
-                mt: "3rem",
-              }}
             >
-              <Typography>{item.name}</Typography>
-            </Box>
+              <Box
+                sx={{
+                  width: "10rem",
+                  height: "10rem",
+                  borderRadius: "3rem",
+                  border: "2px solid lightgray",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  ml: "3rem",
+                  mt: "3rem",
+                }}
+              >
+                <Typography>{item.name}</Typography>
+              </Box>
+            </Link>
           );
         })}
       </Box>
