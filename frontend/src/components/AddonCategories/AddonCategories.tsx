@@ -4,7 +4,7 @@ import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { getAddonCategoriesByLocation } from "../../utils";
 import AddIcon from "@mui/icons-material/Add";
-import CreateAddonCategory from "../CreateAddonCategory copy/CreateAddonCategory";
+import CreateAddonCategory from "../CreateAddonCategory/CreateAddonCategory";
 import { Link } from "react-router-dom";
 
 const AddonCategories = () => {

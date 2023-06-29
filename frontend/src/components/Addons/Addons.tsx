@@ -1,12 +1,14 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Layout from "../Layout/Layout";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import {
   getAddonCategoriesByLocation,
   getAddonsByLocationId,
 } from "../../utils";
 import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import CreateAddon from "../CreateAddon/CreateAddon";
 
 const Addons = () => {
   const {
@@ -15,6 +17,8 @@ const Addons = () => {
     addonCategories,
     addons,
   } = useContext(AppContext);
+
+  const [open, setOpen] = useState(false);
 
   const validAddonCategories = getAddonCategoriesByLocation(
     menusMenuCategoriesLocations,
@@ -26,6 +30,15 @@ const Addons = () => {
 
   return (
     <Layout title="Addons">
+      <Box sx={{ mt: 4, mr: 5, display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          onClick={() => setOpen(true)}
+          variant="contained"
+          startIcon={<AddIcon />}
+        >
+          Create Addon
+        </Button>
+      </Box>
       <Box sx={{ display: "flex" }}>
         {validAddons.map((item) => {
           return (
@@ -53,6 +66,7 @@ const Addons = () => {
           );
         })}
       </Box>
+      <CreateAddon open={open} setOpen={setOpen} />
     </Layout>
   );
 };
