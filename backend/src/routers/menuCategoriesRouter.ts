@@ -74,7 +74,7 @@ menuCategoriesRouter.put("/removeMenu", async (req: Request, res: Response) => {
     "update menus_menu_categories_locations set is_archived = true where menus_id = $1 and menu_categories_id = $2 and locations_id = $3",
     [menuId, menuCategoryId, locationId]
   );
-  res.send(200);
+  res.sendStatus(200);
 });
 
 menuCategoriesRouter.delete(
@@ -115,6 +115,33 @@ menuCategoriesRouter.post("/", async (req: Request, res: Response) => {
       "insert into menus_menu_categories_locations (menu_categories_id, locations_id) values ($1, $2)",
       [newMenuCategoryId, item]
     );
+  });
+  res.sendStatus(200);
+});
+
+menuCategoriesRouter.put("/addMenu", async (req: Request, res: Response) => {
+  const { menuIds, menuCategoryId, locationIds } = req.body;
+  const isValid = menuIds.length && menuCategoryId && locationIds.length;
+  if (!isValid) return res.sendStatus(400);
+  menuIds.map((menuId: number) => {
+    locationIds.map(async (locationId: number) => {
+      const existingMenusMenuCategoriesLocations = await db.query(
+        "select * from menus_menu_categories_locations where menus_id = $1 and menu_categories_id = $2 and locations_id = $3",
+        [menuId, menuCategoryId, locationId]
+      );
+      const isExist = existingMenusMenuCategoriesLocations.rows.length;
+      if (isExist) {
+        await db.query(
+          "update menus_menu_categories_locations set is_archived = false where menus_id = $1 and menu_categories_id = $2 and locations_id = $3",
+          [menuId, menuCategoryId, locationId]
+        );
+      } else {
+        await db.query(
+          "insert into menus_menu_categories_locations (menus_id, menu_categories_id, locations_id) values ($1, $2, $3)",
+          [menuId, menuCategoryId, locationId]
+        );
+      }
+    });
   });
   res.sendStatus(200);
 });

@@ -86,13 +86,10 @@ export const getMenusByMenuCategoryId = (
   menusMenuCategoriesLocations: MenusMenuCategoriesLocations[],
   menuCategoryId: string
 ) => {
-  const selectedLocationId = getSelectedLocationId();
   const validMenuIds = menusMenuCategoriesLocations
     .filter(
       (item) =>
-        item.menus_id &&
-        item.menu_categories_id === Number(menuCategoryId) &&
-        item.locations_id === Number(selectedLocationId)
+        item.menus_id && item.menu_categories_id === Number(menuCategoryId)
     )
     .map((item) => item.menus_id);
   return menus.filter((item) => validMenuIds.includes(item.id));

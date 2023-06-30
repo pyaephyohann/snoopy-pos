@@ -29,6 +29,10 @@ const EditMenuCategory = () => {
 
   const [selectedMenuToDelete, setSelectedMenuToDelete] = useState<Menus>();
 
+  const [selectedMenuIdsToAdd, setSelectedMenuIdsToAdd] = useState<number[]>(
+    []
+  );
+
   const [open, setOpen] = useState(false);
 
   const [openDeleteMenuCategory, setOpenDeleteMenuCategory] = useState(false);
@@ -53,10 +57,26 @@ const EditMenuCategory = () => {
     menuCategoryId
   );
 
+  const validLocationIds = validLocations.map((item) => item.id);
+
+  const selectedLocationId = getSelectedLocationId();
+
+  const validMenus = getMenusByMenuCategoryId(
+    menus,
+    menusMenuCategoriesLocations,
+    menuCategoryId
+  );
+
+  const validMenuIds = validMenus.map((item) => item.id);
+
   const mappedValidLocations = validLocations.map((item) => ({
     id: item.id as number,
     name: item.name,
   }));
+
+  const mappedMenus = menus
+    .map((item) => ({ id: item.id, name: item.name }))
+    .filter((item) => !validMenuIds.includes(item.id));
 
   const accessToken = getAccessToken();
 
@@ -75,14 +95,6 @@ const EditMenuCategory = () => {
       body: JSON.stringify(newMenuCategory),
     });
   };
-
-  const selectedLocationId = getSelectedLocationId();
-
-  const validMenus = getMenusByMenuCategoryId(
-    menus,
-    menusMenuCategoriesLocations,
-    menuCategoryId
-  );
 
   const handleDeleteMenuFromMenuCategory = async () => {
     await fetch(`${config.apiBaseUrl}/menu-categories/removeMenu`, {
@@ -111,6 +123,22 @@ const EditMenuCategory = () => {
     });
     fetchData();
     navigate("/menu-categories");
+  };
+
+  const handleAddMenustoMenuCategory = async () => {
+    await fetch(`${config.apiBaseUrl}/menu-categories/addMenu`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        menuCategoryId,
+        menuIds: selectedMenuIdsToAdd,
+        locationIds: validLocationIds,
+      }),
+    });
+    fetchData();
   };
 
   if (!menuCategory)
@@ -162,7 +190,25 @@ const EditMenuCategory = () => {
             Update
           </Button>
         </Box>
-        <Box sx={{ mt: 6, ml: 10, display: "flex" }}>
+        <Box sx={{ mt: 4, textAlign: "center" }}>
+          <Typography variant="h4">Menus</Typography>
+        </Box>
+        <Box sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
+          <Autocomplete
+            options={mappedMenus}
+            label="Menus"
+            placeholder="Menus"
+            onChange={(options) =>
+              setSelectedMenuIdsToAdd(options.map((item) => item.id))
+            }
+          />
+        </Box>
+        <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
+          <Button onClick={handleAddMenustoMenuCategory} variant="contained">
+            Add
+          </Button>
+        </Box>
+        <Box sx={{ mt: 6, ml: 10, display: "flex", flexWrap: "wrap" }}>
           {validMenus.map((item) => {
             return (
               <Box
