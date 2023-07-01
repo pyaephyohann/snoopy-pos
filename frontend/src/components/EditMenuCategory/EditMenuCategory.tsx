@@ -125,7 +125,7 @@ const EditMenuCategory = () => {
     navigate("/menu-categories");
   };
 
-  const handleAddMenustoMenuCategory = async () => {
+  const handleAddMenusToMenuCategory = async () => {
     await fetch(`${config.apiBaseUrl}/menu-categories/addMenu`, {
       method: "PUT",
       headers: {
@@ -204,7 +204,7 @@ const EditMenuCategory = () => {
           />
         </Box>
         <Box sx={{ mt: 3, display: "flex", justifyContent: "center" }}>
-          <Button onClick={handleAddMenustoMenuCategory} variant="contained">
+          <Button onClick={handleAddMenusToMenuCategory} variant="contained">
             Add
           </Button>
         </Box>

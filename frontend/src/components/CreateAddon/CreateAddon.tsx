@@ -14,7 +14,7 @@ import {
 import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
 import { config } from "../../config/config";
-import { getAccessToken } from "../../utils";
+import { getAccessToken, getAddonCategoriesByLocation } from "../../utils";
 
 interface Props {
   open: boolean;
@@ -22,7 +22,12 @@ interface Props {
 }
 
 const CreateAddon = ({ open, setOpen }: Props) => {
-  const { addonCategories, fetchData } = useContext(AppContext);
+  const {
+    addonCategories,
+    fetchData,
+    menusMenuCategoriesLocations,
+    menusAddonCategories,
+  } = useContext(AppContext);
 
   const accessToken = getAccessToken();
 
@@ -31,6 +36,12 @@ const CreateAddon = ({ open, setOpen }: Props) => {
     price: 0,
     addonCategoryId: "",
   });
+
+  const validAddonCategories = getAddonCategoriesByLocation(
+    menusMenuCategoriesLocations,
+    menusAddonCategories,
+    addonCategories
+  );
 
   const handleCreateAddon = async () => {
     const isValid = newAddon.name && newAddon.addonCategoryId;
@@ -86,7 +97,7 @@ const CreateAddon = ({ open, setOpen }: Props) => {
               autoWidth
               label="Addon Category"
             >
-              {addonCategories.map((item) => {
+              {validAddonCategories.map((item) => {
                 return (
                   <MenuItem sx={{ p: 2 }} key={item.id} value={item.id}>
                     {item.name}

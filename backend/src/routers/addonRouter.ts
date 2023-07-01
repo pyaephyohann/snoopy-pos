@@ -37,11 +37,10 @@ addonRouter.delete("/:id", checkAuth, async (req: Request, res: Response) => {
   res.sendStatus(200);
 });
 
-addonRouter.post("/", checkAuth, async (req: Request, res: Response) => {
-  const { name, addonCategoryId } = req.body;
+addonRouter.post("/", async (req: Request, res: Response) => {
+  const { name, price = 0, addonCategoryId } = req.body;
   const isValid = name && addonCategoryId;
   if (!isValid) return res.sendStatus(400);
-  const price = req.body.price || 0;
   await db.query(
     "insert into addons (name, price, addon_categories_id) values ($1, $2, $3)",
     [name, price, Number(addonCategoryId)]
