@@ -24,3 +24,34 @@ tablesRouter.post("/", checkAuth, async (req: Request, res: Response) => {
   ]);
   res.sendStatus(200);
 });
+
+tablesRouter.put("/", async (req: Request, res: Response) => {
+  const { name, tableId } = req.body;
+  if (!tableId) return res.sendStatus(400);
+  const existingTable = await db.query("select * from tables where id = $1", [
+    tableId,
+  ]);
+  const hasExistingTable = existingTable.rows.length;
+  if (!hasExistingTable) return res.sendStatus(400);
+  if (name) {
+    await db.query("update tables set name = $1 where id = $2", [
+      name,
+      tableId,
+    ]);
+  }
+  res.sendStatus(200);
+});
+
+tablesRouter.delete("/:tableId", async (req: Request, res: Response) => {
+  const tableId = req.params.tableId;
+  if (!tableId) return res.sendStatus(400);
+  const existingTable = await db.query("select * from tables where id = $1", [
+    tableId,
+  ]);
+  const hasExistingTable = existingTable.rows.length;
+  if (!hasExistingTable) return res.sendStatus(400);
+  await db.query("update tables set is_archived = true where id = $1", [
+    tableId,
+  ]);
+  res.sendStatus(200);
+});

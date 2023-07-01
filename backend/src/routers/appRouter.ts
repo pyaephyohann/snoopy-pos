@@ -53,7 +53,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     [addonCategoriesIds]
   );
   const tables = await db.query(
-    "select * from tables where locations_id = ANY($1::int[])",
+    "select * from tables where locations_id = ANY($1::int[]) and is_archived = false",
     [[locationIds]]
   );
   res.send({
