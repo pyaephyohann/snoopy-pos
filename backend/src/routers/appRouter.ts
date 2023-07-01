@@ -17,7 +17,7 @@ appRouter.get("/", checkAuth, async (req: Request, res: Response) => {
     companyId,
   ]);
   const locationsResult = await db.query(
-    "select * from locations where companies_id = $1",
+    "select * from locations where companies_id = $1 and is_archived = false",
     [companyId]
   );
   const locationIds = locationsResult.rows.map((row) => row.id);

@@ -5,6 +5,7 @@ import { AppContext } from "../../contexts/AppContext";
 import { getSelectedLocationId } from "../../utils";
 import CreateTable from "../CreateTable/CreateTable";
 import { Link } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
 
 const Tables = () => {
   const { tables } = useContext(AppContext);
@@ -27,8 +28,12 @@ const Tables = () => {
           px: "4rem",
         }}
       >
-        <Button onClick={() => setOpen(true)} variant="contained">
-          + Create Table
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => setOpen(true)}
+          variant="contained"
+        >
+          Create Table
         </Button>
       </Box>
       <Box
@@ -40,6 +45,7 @@ const Tables = () => {
         {currentLocationTables.map((table) => {
           return (
             <Link
+              key={table.id}
               style={{ textDecoration: "none", color: "black" }}
               to={`${table.id}`}
             >

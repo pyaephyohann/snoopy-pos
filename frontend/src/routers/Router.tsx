@@ -16,6 +16,7 @@ import EditAddon from "../components/EditAddon/EditAddon";
 import EditMenu from "../components/EditMenu/EditMenu";
 import EditAddonCategory from "../components/EditAddonCategory/EditAddonCategory";
 import EditTable from "../components/EditTable/EditTable";
+import EditLocation from "../components/EditLocation/EditLocation";
 
 const Router = () => {
   return (
@@ -33,6 +34,7 @@ const Router = () => {
           <Route path="/addon-categories" Component={AddonCategories} />
           <Route path="/addon-categories/:id" Component={EditAddonCategory} />
           <Route path="/locations" Component={Locations} />
+          <Route path="/locations/:id" Component={EditLocation} />
           <Route path="/tables" Component={Tables} />
           <Route path="/tables/:id" Component={EditTable} />
           <Route path="/settings" Component={Settings} />

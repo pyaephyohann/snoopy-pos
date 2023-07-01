@@ -15,7 +15,7 @@ interface Props {
   callBack: () => void;
 }
 
-const DeleteDialog = ({ title, open, setOpen, callBack }: Props) => {
+const DeleteDialog: any = ({ title, open, setOpen, callBack }: Props) => {
   return (
     <Dialog open={open} onClose={() => setOpen(false)}>
       <DialogTitle sx={{ pt: 3, mb: 2 }} variant="h5">

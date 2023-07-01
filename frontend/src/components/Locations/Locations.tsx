@@ -1,90 +1,64 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import Layout from "../Layout/Layout";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../contexts/AppContext";
-import { config } from "../../config/config";
+import AddIcon from "@mui/icons-material/Add";
+
+import { Link } from "react-router-dom";
+import CreateLocation from "../CreateLocation/CreateLocation";
 
 const Locations = () => {
-  const { locations, fetchData, company, isLoading } = useContext(AppContext);
-  const accessToken = localStorage.getItem("accessToken");
+  const { locations } = useContext(AppContext);
 
-  const [newLocation, setNewLocation] = useState({
-    name: "",
-    address: "",
-    companyId: company?.id,
-  });
-
-  useEffect(() => {
-    if (company) {
-      setNewLocation({ ...newLocation, companyId: company?.id });
-    }
-  }, [company]);
-
-  const createNewLocation = async () => {
-    await fetch(`${config.apiBaseUrl}/locations`, {
-      method: "POST",
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newLocation),
-    });
-    fetchData();
-    setNewLocation({
-      name: "",
-      address: "",
-      companyId: company?.id,
-    });
-  };
-
-  if (isLoading) return null;
+  const [open, setOpen] = useState(false);
 
   return (
     <Layout title="Locations">
-      <Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          mt: "2rem",
+          px: "4rem",
+        }}
+      >
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => setOpen(true)}
+          variant="contained"
+        >
+          Create Location
+        </Button>
+      </Box>
+      <Box sx={{ display: "flex", flexWrap: "wrap" }}>
         {locations.map((location, index) => {
           return (
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                mr: 5,
-                ml: 10,
-                mt: 5,
-              }}
+            <Link
               key={location.id}
+              style={{ textDecoration: "none", color: "black" }}
+              to={`${location.id}`}
             >
-              <Typography sx={{ mr: 1.5 }} variant="h5">
-                {index + 1}.
-              </Typography>
-              <TextField sx={{ mr: 5 }} defaultValue={location.name} />
-              <TextField sx={{ mr: 5 }} defaultValue={location.address} />
-              <Button variant="contained">Update</Button>
-            </Box>
+              <Box
+                key={location.id}
+                sx={{
+                  width: "9rem",
+                  height: "9rem",
+                  border: "1px solid gray",
+                  borderRadius: "2rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  ml: 5,
+                  mt: 5,
+                }}
+              >
+                <Typography>{location.name}</Typography>
+              </Box>
+            </Link>
           );
         })}
-        <Box
-          sx={{ mt: 5, ml: 13.5, display: "flex", alignItems: "center", mb: 5 }}
-        >
-          <TextField
-            value={newLocation.name}
-            onChange={(event) =>
-              setNewLocation({ ...newLocation, name: event.target.value })
-            }
-            sx={{ mr: 5 }}
-          />
-          <TextField
-            value={newLocation.address}
-            onChange={(event) =>
-              setNewLocation({ ...newLocation, address: event.target.value })
-            }
-            sx={{ mr: 5 }}
-          />
-          <Button variant="contained" onClick={createNewLocation}>
-            Create
-          </Button>
-        </Box>
       </Box>
+      <CreateLocation open={open} setOpen={setOpen} />
     </Layout>
   );
 };
